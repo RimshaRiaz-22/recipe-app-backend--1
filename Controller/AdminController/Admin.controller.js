@@ -153,6 +153,58 @@ const Admin_ResetPassword= async(req,res)=>{
     
 }
 
+const Admin_UpdatePassword= async (req,res)=>{
+  
+
+  const updateData = {
+    AdminPass: req.body.newPass,
+    AdminEmail: req.body.Email,
+ 
+}
+const options = {
+    new: true
+}
+Admin.findByIdAndUpdate(req.body._id, updateData, options, (error, result) => {
+    if (error) {
+        res.json(error.message)
+    } else {
+        res.send({data:result,message:"Updated Successfully"})
+    }
+})
+      
+
+    //   Admin.findOneAndUpdate({email:Email}, {
+    //       $set:{AdminPass:newPass}
+    //   })
+    //   .then(data => {
+    //     if (!data) {
+    //       res.status(404).send({
+    //         message: `Cannot update Admin Pass with id=${AdminData.id}. Maybe Admin was not found!`
+    //       });
+    //     } else res.send(
+    //       {
+    //        message1: response.message,
+    //        status: response.statusText,
+    //        message: "Admin pass changes successfully.",
+       
+    //    });
+    //   })
+    //   .catch(err => {
+    //     res.status(500).send({
+    //       message: "Error updating Admin Pass with id=" + AdminData.id
+    //     });
+    //   });
+      
+     }
+const AdminGetByEmail= async (req,res)=>{
+  Admin.find({ AdminEmail: req.body.email }, function (err, foundResult) {
+    try {
+        res.json({data:foundResult})
+    } catch (err) {
+        res.json(err)
+    }
+  })
+}
 
 
 const Admin_OTPChangePassword= async (req,res)=>{
@@ -335,6 +387,8 @@ module.exports = {
     ChangeWithConfirmPass,
     ViewAdminDetails,
     updateAdminProfile,
-    ViewAllAdmin
+    ViewAllAdmin,
+    Admin_UpdatePassword,
+    AdminGetByEmail
 
 }
