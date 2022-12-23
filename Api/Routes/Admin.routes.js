@@ -13,5 +13,8 @@ app.post('/AdminResetPass',AdminController.Admin_ResetPassword)
 app.post('/ChangeWithConfirmPass',AdminController.ChangeWithConfirmPass)
 app.post('/ViewAdmin',AdminController.ViewAdminDetails)
 app.post('/UpdateAdmin',AdminController.updateAdminProfile)
+app.post('/UpdateAdminPass',AdminController.Admin_UpdatePassword)
+app.post('/AdminGetByEmail',AdminController.AdminGetByEmail)
+
 
  module.exports= app
