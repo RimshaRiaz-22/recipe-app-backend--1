@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
 
 const AboutUsSchema = new mongoose.Schema({
-  Image:{
+  
+  Title: {
     type: String,
     required: true,
   },
-  Heading: {
-    type: String,
-    required: true,
-  },
-  Text: {
+  Description: {
     type: String,
     required: true,
   },

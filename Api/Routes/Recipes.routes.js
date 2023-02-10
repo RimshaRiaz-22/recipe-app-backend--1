@@ -12,5 +12,6 @@ app.post('/searchRecipieByCategory',RecipeController.SearchRecipeByCategory)
 app.post('/SearchRecipeByName',RecipeController.SearchRecipeByName)
 app.post('/searchRecipieByRecipieType',RecipeController.SearchRecipeByRecipieType)
 app.post('/searchRecipieByCountry',RecipeController.SearchRecipeByCountry)
+app.post('/searchRecipieByRecipieTypeLatest',RecipeController.SearchRecipeByRecipieTypeLatest)
 
 module.exports= app

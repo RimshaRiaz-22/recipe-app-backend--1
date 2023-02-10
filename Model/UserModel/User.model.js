@@ -5,16 +5,24 @@ const UserSchema=new mongoose.Schema({
         type:String,
         required:true,
        },
+       UserCountry:{
+        type:String,
+        required:true,
+       },
+       UserDeviceID:{
+        type:String,
+        required:true,
+       },
    
-    UserPass:{
-        type:String,
-        required:true,
-       },
+    // UserPass:{
+    //     type:String,
+    //     required:true,
+    //    },
 
-    UserEmail:{
-        type:String,
-        required:true,
-       },
+    // UserEmail:{
+    //     type:String,
+    //     required:true,
+    //    },
 
     User_Preferences:{
         type: mongoose.Schema.Types.ObjectId,

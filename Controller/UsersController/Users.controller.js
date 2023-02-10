@@ -10,9 +10,9 @@ const createUser = async (req,res)=>{
    
     console.log("create User Call")
    
-    const {UserName,UserPass,UserEmail,User_Preferences, User_genere,location} = req.body
-    const UserPass1 = bcrypt.hashSync(UserPass, 12)
-    User.find({ UserEmail: UserEmail }, (error, result) => {
+    const {UserName,UserDeviceID,UserCountry,User_Preferences, User_genere,location} = req.body
+    // const UserPass1 = bcrypt.hashSync(UserPass, 12)
+    User.find({ UserDeviceID: UserDeviceID }, (error, result) => {
       if (error) {
           res.send(error)
       } else {
@@ -21,8 +21,8 @@ const createUser = async (req,res)=>{
             console.log('no data')
             const user= new User({
               UserName,
-              UserPass:UserPass1,
-              UserEmail,
+              UserCountry,
+              UserDeviceID,
               User_Preferences, 
               User_genere,
               location
@@ -50,7 +50,7 @@ const createUser = async (req,res)=>{
           });
         });
           }else{
-          res.json({message:'This Email Already Exist',data:result})
+          res.json({message:'This Device_id Already Exist',data:result})
           }
         }
       })
@@ -63,9 +63,9 @@ const createUser = async (req,res)=>{
 
 const UserSignIn= async (req,res)=>{
     console.log("User SignIn Call")
-    const {UserName,UserPass}= req.body
+    const {UserDeviceID}= req.body
    //  Validate request
-   if (!UserName) {
+   if (!UserDeviceID) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
@@ -73,7 +73,7 @@ const UserSignIn= async (req,res)=>{
 
 
        User.findOne({
-        UserName:UserName
+        UserDeviceID:UserDeviceID
       })
         .exec((err, user) => {
           if (err) {
@@ -85,31 +85,35 @@ const UserSignIn= async (req,res)=>{
           }
     
           if (!user) {
-            return res.status(404).send({ message: "User Not found." });
-          }
-          console.log("here is admin pass ",user.UserPass)
-          if(bcrypt.compareSync(UserPass, user.UserPass)){
-            const updateData = {
-              isLogin:true
-          }
-          const options = {
-              new: true
-          }
-          User.findByIdAndUpdate(user._id, updateData, options, (error, result) => {
-              if (error) {
-                  res.json(error.message)
-              } else {
-                  res.json({data:result,message:"Login Successfully"})
-              }
-          })
+            return res.status(404).send({ data:user,message: "User Not found." });
           }else{
-            res.status(500).send({
-                 
-              message:"Incorrect Username and pass",
-              resCode: ResponseCode.INCORECT_EMAIL_PASS
-            }
-               );
+          res.json({data:user,message:"Login Successfully"})
+
+
           }
+          // res.json("here is admin pass ",user)
+          // if(bcrypt.compareSync(UserPass, user.UserPass)){
+          //   const updateData = {
+          //     isLogin:true
+          // }
+          // const options = {
+          //     new: true
+          // }
+          // User.findByIdAndUpdate(user._id, updateData, options, (error, result) => {
+          //     if (error) {
+          //         res.json(error.message)
+          //     } else {
+          //         res.json({data:result,message:"Login Successfully"})
+          //     }
+          // })
+          // }else{
+          //   res.status(500).send({
+                 
+          //     message:"Incorrect Username and pass",
+          //     resCode: ResponseCode.INCORECT_EMAIL_PASS
+          //   }
+          //      );
+          // }
           
         });
     }
