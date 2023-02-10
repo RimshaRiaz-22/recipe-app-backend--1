@@ -6,9 +6,8 @@ const CreateAboutUs = (req,res)=>{
       
     const RecipeData = new AboutUs({
         _id: mongoose.Types.ObjectId(),
-        Image: req.body.Image,
-        Heading: req.body.Heading,
-        Text:req.body.Text
+        Title: req.body.Title,
+        Description:req.body.Description
     
       });
       RecipeData.save((error, result) => {
@@ -56,9 +55,8 @@ const DeleteAboutUs =(req,res)=>{
 const UpdateAboutUs = (req,res)=>{
     const {
         id,
-        Image,
-        Heading,
-        Text
+        Title,
+        Description
   
     }  = req.body
 
@@ -68,9 +66,8 @@ const UpdateAboutUs = (req,res)=>{
         }
 
         AboutUs.findByIdAndUpdate(id, {
-            Image,
-            Heading,
-            Text
+            Title,
+            Description
         }).then(data=>{
       res.status(200).send({
         message:" AboutUs updated successfully",

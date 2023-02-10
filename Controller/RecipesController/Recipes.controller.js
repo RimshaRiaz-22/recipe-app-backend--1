@@ -53,6 +53,16 @@ const SearchRecipeByRecipieType = (req, res) => {
     }
   }).populate('recipie_type').populate('Category_ID')
 }
+const SearchRecipeByRecipieTypeLatest = (req, res) => {
+  const recipie_type = req.body.recipie_type
+  Recipe.find({ recipie_type: recipie_type }, (error, result) => {
+    if (error) {
+      res.send(error)
+    } else {
+      res.send(result[0])
+    }
+  }).populate('recipie_type').populate('Category_ID')
+}
 const SearchRecipeByCountry = (req, res) => {
   const country_of_recipie = req.body.country_of_recipie
   Recipe.find({
@@ -207,5 +217,6 @@ module.exports = {
   SearchRecipeByCategory,
   SearchRecipeByName,
   SearchRecipeByRecipieType,
-  SearchRecipeByCountry
+  SearchRecipeByCountry,
+  SearchRecipeByRecipieTypeLatest
 }
