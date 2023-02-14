@@ -52,10 +52,11 @@ const RecipesSchema = new mongoose.Schema({
   savedBy:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'SavedRecipes'
-  }]
-
-
-
+  }],
+  Status: { 
+    type: String,
+  enum: ['saved', 'not saved']
+}
 
 }, {
 
