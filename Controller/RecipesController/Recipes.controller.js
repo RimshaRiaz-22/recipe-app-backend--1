@@ -179,6 +179,77 @@ const ViewAllRecipe = async (req, res) => {
 
 
 }
+const ViewAllRecipeBySavedStatus = async (req, res) => {
+  const TycoonId = req.body.userId;
+  const dateFund = req.body.date
+  Recipe.find({ }, function (err, foundResult) {
+      // if(err){
+      //     res.json(err);
+      // }else{
+try {
+  let arrayData = foundResult
+  let arrayTemp = [];
+  let assignfund =[];
+  for (let i = 0; i < arrayData.length; i++) {
+        assignfund=arrayData[i].savedBy
+        if(assignfund.length===0){
+          // console.log('hello')
+          arrayData[i].Status='not saved'
+
+        }else{
+          // console.log('hello1')
+
+          var aquaticCreatures =  assignfund.filter(function(creature) {
+              return creature == TycoonId;
+            });
+           arrayData[i].Status='saved'
+        }
+     
+  // }
+      }
+      res.json(arrayData)
+
+     
+      } catch (err) {
+          res.json(err)
+      }
+  }).sort({ $natural: -1 })
+      .populate('recipie_type')
+      .populate('Category_ID')
+  // const userId=req.body.userId
+  // let AllData=[]
+  // let REsultData=[]
+
+  // Recipe.find({}, (error, result) => {
+  //   if (error) {
+  //     res.send(error)
+  //   } else {
+  //     res.send(result)
+  //     AllData=result;
+  //     for(let i=0;i<AllData.length;i++){
+  //       if(AllData[i].savedBy.length===0){
+  //         REsultData.push(AllData[i])
+  //       }else{
+
+  //       }
+  //     }
+  //     // Recipe.find({'savedBy':userId}, (error, result) => {
+  //     //   if (error) {
+  //     //     res.send(error)
+  //     //   } else {
+  //     //     res.send(result)
+  //     //     let savedUserRecipie=result;
+
+          
+    
+  //     //   }
+  //     // })
+
+  //   }
+  // }).populate('recipie_type').populate('Category_ID')
+
+
+}
 
 
 const ViewRecipe = async (req, res) => {
@@ -215,6 +286,7 @@ module.exports = {
   ViewAllRecipe,
   ViewRecipe,
   SearchRecipeByCategory,
+  ViewAllRecipeBySavedStatus,
   SearchRecipeByName,
   SearchRecipeByRecipieType,
   SearchRecipeByCountry,

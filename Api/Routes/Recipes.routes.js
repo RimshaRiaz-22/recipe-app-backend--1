@@ -7,6 +7,8 @@ app.post('/CreateRecipe',upload.fields([{ name: 'RecipeImage', maxCount: 3 }, { 
 app.post('/UpdateRecipe',upload.fields([{ name: 'RecipeImage', maxCount: 3 }, { name: 'RecipeVideo', maxCount: 3 }]),RecipeController.UpdateRecipe)
 app.post('/DeleteRecipe',RecipeController.DeleteRecipe)
 app.get('/ViewAllRecipe',RecipeController.ViewAllRecipe)
+app.post('/ViewAllRecipeBySavedStatus',RecipeController.ViewAllRecipeBySavedStatus)
+
 app.post('/ViewRecipe',RecipeController.ViewRecipe)
 app.post('/searchRecipieByCategory',RecipeController.SearchRecipeByCategory)
 app.post('/SearchRecipeByName',RecipeController.SearchRecipeByName)
