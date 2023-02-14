@@ -10,7 +10,7 @@ const createUser = async (req,res)=>{
    
     console.log("create User Call")
    
-    const {UserName,UserDeviceID,UserCountry,User_Preferences, User_genere,location} = req.body
+    const {UserDeviceID,UserCountry,User_Preferences, User_genere,location} = req.body
     // const UserPass1 = bcrypt.hashSync(UserPass, 12)
     User.find({ UserDeviceID: UserDeviceID }, (error, result) => {
       if (error) {
@@ -20,18 +20,12 @@ const createUser = async (req,res)=>{
           if (result === undefined || result.length == 0) {
             console.log('no data')
             const user= new User({
-              UserName,
               UserCountry,
               UserDeviceID,
               User_Preferences, 
               User_genere,
               location
           })
-          if (!req.body.UserName) {
-              res.status(400).send({ message: "Content can not be empty!" });
-              return;
-            }
-      
           // save User into database
       
       user.save(user)
@@ -296,7 +290,7 @@ const UserSignIn= async (req,res)=>{
     }
 
   const UpdateUser = async(req,res)=>{
-     const {id,UserEmail,User_Preferences,User_genere} = req.body
+     const {id,User_Preferences,User_genere,UserDeviceID,UserCountry} = req.body
      if (!req.body) {
       res.status(400).send({ message: "Content can not be empty!" });
       return;
@@ -308,9 +302,10 @@ const UserSignIn= async (req,res)=>{
           }
     
           User.findByIdAndUpdate(id, {
-            UserEmail,
+            UserDeviceID,
             User_Preferences,
-            User_genere
+            User_genere,
+            UserCountry
         }).then(data=>{
       res.status(200).send({
         message:" User updated successfully",
