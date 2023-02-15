@@ -4,6 +4,7 @@ const ResponseCode = require('../../Utils/Responses/ResponseCode')
 const mongoose = require('mongoose');
 
 const SaveRecipe = async(req,res)=>{
+  
   const RecipeData = new Recipe({
     _id: mongoose.Types.ObjectId(),
     Recipe_ID: req.body.Recipe_ID,
@@ -40,12 +41,13 @@ RecipeSchema.findByIdAndUpdate(req.body.Recipe_ID, updateData, options, (error, 
 }
 
 const DeleteSaveRecipe=(req,res)=>{
-
-  Recipe.findById({ _id: req.body._id }, function (err, foundResult) {
+  const UserId=req.body.UserId;
+        const RecipieId=req.body.Recipe_ID;
+  Recipe.findById({ Recipe_ID: req.body.Recipe_ID,UserId:req.body.UserId }, function (err, foundResult) {
     try {
         // res.json({data:foundResult})
-        const UserId=foundResult.UserId;
-        const RecipieId=foundResult.Recipe_ID;
+        // const UserId=foundResult.UserId;
+        // const RecipieId=foundResult.Recipe_ID;
         console.log(UserId,RecipieId)
         const updateData = {
           $pull: {
@@ -80,7 +82,6 @@ const DeleteSaveRecipe=(req,res)=>{
 
  
 }
-
 
 
 const ViewAllSavedRecipe = async (req,res)=>{
