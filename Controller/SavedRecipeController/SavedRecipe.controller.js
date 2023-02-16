@@ -43,43 +43,36 @@ RecipeSchema.findByIdAndUpdate(req.body.Recipe_ID, updateData, options, (error, 
 const DeleteSaveRecipe=(req,res)=>{
   const UserId=req.body.UserId;
         const RecipieId=req.body.Recipe_ID;
-  Recipe.findById({ Recipe_ID: req.body.Recipe_ID,UserId:req.body.UserId }, function (err, foundResult) {
+  Recipe.find({ Recipe_ID: req.body.Recipe_ID,UserId:req.body.UserId }, function (err, foundResult) {
     try {
-        // res.json({data:foundResult})
-        // const UserId=foundResult.UserId;
-        // const RecipieId=foundResult.Recipe_ID;
-        console.log(UserId,RecipieId)
-        const updateData = {
-          $pull: {
-              savedBy: UserId,
-          }
-      }
-      const options = {
-          new: true
-      }
-      RecipeSchema.findByIdAndUpdate(RecipieId, updateData, options, (error, result) => {
+      // res.json(foundResult)
+      for(let i=0;i<foundResult.length;i++){
+             Recipe.findByIdAndDelete(foundResult[i]._id, (error, result) => {
           if (error) {
-              res.json(error.message)
+              res.send({message:error.message})
           } else {
-            // res.json(result)
-            // Delete Saved Item 
-            Recipe.findByIdAndDelete(req.body._id, (error, result) => {
-              if (error) {
-                  res.send({message:error.message})
-              } else {
-                  res.json({ message: "Deleted Successfully" })
-              }
-          })
-
-
           }
-        })
+      })
+      }
+      const updateData = {
+              $pull: {
+                  savedBy: UserId,
+              }
+          }
+          const options = {
+              new: true
+          }
+          RecipeSchema.findByIdAndUpdate(RecipieId, updateData, options, (error, result) => {
+              if (error) {
+                  res.json(error.message)
+              } else {
+                res.json({data:result,message:'Updated Successfully'})
+              }
+            })
     } catch (err) {
         res.json(err)
     }
 })
-
-
  
 }
 
